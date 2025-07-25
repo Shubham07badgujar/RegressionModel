@@ -1,64 +1,571 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>FWI Prediction</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 FWI Prediction Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            padding: 40px;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
         }
-        .login {
-            background: #ffffff;
-            padding: 20px 40px;
-            max-width: 500px;
-            margin: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        input {
-            display: block;
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            margin-bottom: 12px;
-            padding: 10px;
-            font-size: 16px;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 300% 300%;
+            animation: gradientMove 8s ease infinite;
         }
-        button {
-            padding: 12px;
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: titlePulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titlePulse {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+            to { text-shadow: 2px 2px 20px rgba(255,255,255,0.5); }
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-title {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
             width: 100%;
-            font-size: 16px;
-            background-color: #007BFF;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #feca57;
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(254, 202, 87, 0.3);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            pointer-events: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
         }
-        h1, h2 {
+
+        .submit-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover:before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .result-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
             text-align: center;
+            color: white;
+        }
+
+        .result-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .result-display {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(68, 160, 141, 0.3);
+            animation: resultPulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes resultPulse {
+            from { box-shadow: 0 4px 15px rgba(68, 160, 141, 0.3); }
+            to { box-shadow: 0 4px 25px rgba(68, 160, 141, 0.6); }
+        }
+
+        .result-value {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #feca57;
+        }
+
+        .info-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #45b7d1, #4ecdc4);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(69, 183, 209, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(69, 183, 209, 0.5);
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 50%;
+            left: 5%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-section, .result-section {
+                padding: 2rem;
+            }
+            
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: none;
+            color: white;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <div class="login">
-        <h1>🔥 FWI Prediction 🔥</h1>
-
-        <form action="{{ url_for('predict_datapoint') }}" method="POST">
-            <input type="text" name="Temperature" placeholder="Temperature" required>
-            <input type="text" name="RH" placeholder="RH" required>
-            <input type="text" name="Ws" placeholder="Wind Speed" required>
-            <input type="text" name="rain" placeholder="Rain" required>
-            <input type="text" name="FFMC" placeholder="FFMC" required>
-            <input type="text" name="DMC" placeholder="DMC" required>
-            <input type="text" name="ISI" placeholder="ISI" required>
-            <input type="text" name="Classes" placeholder="Classes (0 or 1)" required>
-            <input type="text" name="Region" placeholder="Region (0, 1, 2, etc.)" required>
-
-            <button type="submit">Predict</button>
-        </form>
-
-        {% if results is not none %}
-            <h2>🔥 Predicted FWI: {{ results }}</h2>
-        {% endif %}
+    <div class="animated-bg"></div>
+    
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
     </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🔥 Fire Weather Index Predictor</h1>
+            <p>Advanced ML-powered fire risk assessment system</p>
+        </div>
+
+        <div class="main-content">
+            <div class="form-section">
+                <h2 class="form-title">
+                    <i class="fas fa-chart-line"></i>
+                    Weather Parameters
+                </h2>
+                
+                <form action="{{ url_for('predict_datapoint') }}" method="POST" id="predictionForm">
+                    <div class="input-group">
+                        <input type="number" name="Temperature" step="0.01" placeholder="Temperature (°C)" required>
+                        <i class="fas fa-thermometer-half input-icon"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="number" name="RH" step="0.01" placeholder="Relative Humidity (%)" required>
+                        <i class="fas fa-tint input-icon"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="number" name="Ws" step="0.01" placeholder="Wind Speed (km/h)" required>
+                        <i class="fas fa-wind input-icon"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="number" name="rain" step="0.01" placeholder="Rain (mm)" required>
+                        <i class="fas fa-cloud-rain input-icon"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="number" name="FFMC" step="0.01" placeholder="FFMC (Fine Fuel Moisture)" required>
+                        <i class="fas fa-leaf input-icon"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="number" name="DMC" step="0.01" placeholder="DMC (Duff Moisture)" required>
+                        <i class="fas fa-seedling input-icon"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="number" name="ISI" step="0.01" placeholder="ISI (Initial Spread Index)" required>
+                        <i class="fas fa-fire input-icon"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="number" name="Classes" step="1" placeholder="Classes (0 or 1)" required>
+                        <i class="fas fa-tags input-icon"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="number" name="Region" step="1" placeholder="Region (0, 1, 2, etc.)" required>
+                        <i class="fas fa-map-marker-alt input-icon"></i>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-rocket"></i> Predict Fire Weather Index
+                    </button>
+                    
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        Processing your prediction...
+                    </div>
+                </form>
+            </div>
+
+            <div class="result-section">
+                <h2 class="result-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Prediction Results
+                </h2>
+                
+                {% if results is not none %}
+                    <div class="result-display">
+                        <div class="result-value">{{ "%.2f"|format(results) }}</div>
+                        <div class="result-label">Fire Weather Index</div>
+                    </div>
+                    
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="info-title">Risk Level</div>
+                            <div class="info-desc">
+                                {% if results < 10 %}
+                                    Low Risk
+                                {% elif results < 20 %}
+                                    Moderate Risk
+                                {% elif results < 30 %}
+                                    High Risk
+                                {% else %}
+                                    Extreme Risk
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="info-title">Response Time</div>
+                            <div class="info-desc">Real-time</div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div style="text-align: center; padding: 3rem; opacity: 0.7;">
+                        <i class="fas fa-chart-line" style="font-size: 4rem; margin-bottom: 1rem; color: #feca57;"></i>
+                        <p style="font-size: 1.2rem;">Enter weather parameters to get your fire risk prediction</p>
+                    </div>
+                {% endif %}
+                
+                <a href="{{ url_for('index') }}" class="back-btn">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission animation
+        document.getElementById('predictionForm').addEventListener('submit', function() {
+            document.getElementById('loading').style.display = 'block';
+        });
+
+        // Add floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = 'rgba(255, 255, 255, 0.8)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = window.innerHeight + 'px';
+            particle.style.zIndex = '-1';
+            
+            document.body.appendChild(particle);
+            
+            const duration = Math.random() * 3000 + 2000;
+            particle.animate([
+                { transform: 'translateY(0px)', opacity: 1 },
+                { transform: `translateY(-${window.innerHeight + 100}px)`, opacity: 0 }
+            ], {
+                duration: duration,
+                easing: 'linear'
+            }).onfinish = () => particle.remove();
+        }
+
+        setInterval(createParticle, 500);
+
+        // Input focus effects
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentNode.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentNode.style.transform = 'scale(1)';
+            });
+        });
+    </script>
 </body>
 </html>

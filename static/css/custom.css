@@ -1,0 +1,305 @@
+/* Additional Custom Animations and Effects */
+
+/* Advanced Loading Animation */
+.advanced-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+}
+
+.advanced-spinner {
+    width: 60px;
+    height: 60px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid #ff6b6b;
+    border-radius: 50%;
+    animation: advancedSpin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes advancedSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Ripple Effect for Buttons */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.ripple:active:before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Glitch Effect for Errors */
+.glitch {
+    animation: glitch 0.3s ease-in-out;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-2px); }
+    20% { transform: translateX(2px); }
+    30% { transform: translateX(-2px); }
+    40% { transform: translateX(2px); }
+    50% { transform: translateX(-2px); }
+    60% { transform: translateX(2px); }
+    70% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+    90% { transform: translateX(-2px); }
+}
+
+/* Neon Glow Effect */
+.neon-glow {
+    box-shadow: 
+        0 0 5px currentColor,
+        0 0 10px currentColor,
+        0 0 15px currentColor,
+        0 0 20px currentColor;
+    animation: neonPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes neonPulse {
+    from {
+        box-shadow: 
+            0 0 5px currentColor,
+            0 0 10px currentColor,
+            0 0 15px currentColor,
+            0 0 20px currentColor;
+    }
+    to {
+        box-shadow: 
+            0 0 10px currentColor,
+            0 0 20px currentColor,
+            0 0 30px currentColor,
+            0 0 40px currentColor;
+    }
+}
+
+/* Typewriter Effect */
+.typewriter {
+    overflow: hidden;
+    border-right: 0.15em solid orange;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.15em;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: orange; }
+}
+
+/* Parallax Stars Background */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* 3D Card Flip Effect */
+.flip-card {
+    background-color: transparent;
+    perspective: 1000px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+}
+
+/* Matrix Rain Effect */
+.matrix-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.matrix-char {
+    position: absolute;
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    animation: matrixFall linear infinite;
+}
+
+@keyframes matrixFall {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+/* Smooth Page Transitions */
+.page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    z-index: 9999;
+    transform: translateX(-100%);
+    transition: transform 0.6s ease-in-out;
+}
+
+.page-transition.active {
+    transform: translateX(0);
+}
+
+/* Floating Action Button */
+.fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #ee5a52, #44a08d);
+}
+
+/* Advanced Hover Effects */
+.hover-lift {
+    transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.hover-glow {
+    transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+    filter: brightness(1.2);
+    transform: scale(1.05);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1200px) {
+    .container { max-width: 95%; }
+}
+
+@media (max-width: 992px) {
+    .main-content { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 576px) {
+    .form-section, .result-section { padding: 1.5rem; }
+    .header h1 { font-size: 2rem; }
+}
