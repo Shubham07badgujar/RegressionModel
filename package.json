@@ -1,0 +1,22 @@
+{
+  "name": "fire-weather-index-predictor",
+  "version": "1.0.0",
+  "description": "AI-powered Fire Weather Index prediction system with modern UI",
+  "main": "api/index.py",
+  "scripts": {
+    "dev": "python application.py",
+    "start": "python api/index.py"
+  },
+  "keywords": [
+    "machine-learning",
+    "fire-prediction",
+    "flask",
+    "ai",
+    "weather"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "python": "3.9"
+  }
+}

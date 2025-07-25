@@ -31,39 +31,46 @@ An advanced ML-powered web application for predicting Fire Weather Index (FWI) u
 - **ML Libraries**: scikit-learn, numpy, pickle
 - **Styling**: Custom CSS with animations, Font Awesome icons
 - **Fonts**: Google Fonts (Poppins)
+- **Deployment**: Vercel (Serverless)
 
 ## 📁 Project Structure
 
 ```
 RegressionModel/
-├── application.py              # Main Flask application
+├── api/
+│   └── index.py               # Vercel entry point
+├── application.py             # Local development server
 ├── models/
-│   ├── ridge.pkl              # Trained Ridge regression model
-│   └── scaler.pkl             # Feature scaler
+│   ├── ridge.pkl             # Trained Ridge regression model
+│   └── scaler.pkl            # Feature scaler
 ├── templates/
-│   ├── index.html             # Landing page with modern design
-│   ├── home.html              # Prediction interface
-│   └── error.html             # Custom error page
+│   ├── index.html            # Landing page with modern design
+│   ├── home.html             # Prediction interface
+│   └── error.html            # Custom error page
 ├── static/
 │   ├── css/
-│   │   └── custom.css         # Additional styling and animations
+│   │   └── custom.css        # Additional styling and animations
 │   └── js/
-│       └── app.js             # Interactive JavaScript features
-└── notebook/
-    ├── Algerian_forest_fires_dataset_UPDATE.csv
-    ├── DatasetCleaningand EDA.ipynb
-    └── Lasso,Ridge,ElasticNet_regressions.ipynb
+│       └── app.js            # Interactive JavaScript features
+├── notebook/
+│   ├── Algerian_forest_fires_dataset_UPDATE.csv
+│   ├── DatasetCleaningand EDA.ipynb
+│   └── Lasso,Ridge,ElasticNet_regressions.ipynb
+├── vercel.json               # Vercel configuration
+├── requirements.txt          # Python dependencies
+├── runtime.txt              # Python version specification
+└── package.json             # Project metadata
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.7+
+- Python 3.9+
 - Flask
 - scikit-learn
 - numpy
 
-### Installation
+### Local Development
 
 1. Clone the repository:
 ```bash
@@ -73,7 +80,7 @@ cd RegressionModel
 
 2. Install dependencies:
 ```bash
-pip install flask scikit-learn numpy
+pip install -r requirements.txt
 ```
 
 3. Run the application:
@@ -86,7 +93,59 @@ python application.py
 http://localhost:5000
 ```
 
-## 🎯 How to Use
+## � Deployment to Vercel
+
+### Prerequisites
+- [Vercel CLI](https://vercel.com/cli) installed
+- Git repository
+- Vercel account
+
+### Quick Deploy
+
+1. **Install Vercel CLI:**
+```bash
+npm i -g vercel
+```
+
+2. **Login to Vercel:**
+```bash
+vercel login
+```
+
+3. **Deploy from your project directory:**
+```bash
+vercel
+```
+
+4. **Follow the prompts:**
+   - Set up and deploy? `Y`
+   - Which scope? Choose your account
+   - Link to existing project? `N`
+   - What's your project's name? `fire-weather-predictor`
+   - In which directory is your code located? `./`
+
+### Deploy via GitHub
+
+1. **Push your code to GitHub:**
+```bash
+git add .
+git commit -m "Initial commit"
+git push origin main
+```
+
+2. **Connect to Vercel:**
+   - Go to [vercel.com](https://vercel.com)
+   - Click "New Project"
+   - Import your GitHub repository
+   - Vercel will automatically detect the configuration
+
+### Environment Variables (if needed)
+If you need to set environment variables:
+```bash
+vercel env add VARIABLE_NAME
+```
+
+## �🎯 How to Use
 
 ### Input Parameters
 
@@ -127,18 +186,47 @@ http://localhost:5000
 - **Touch-Friendly**: Large buttons and touch targets
 - **Modern Typography**: Beautiful font hierarchy
 
-## 🔧 Customization
+## 🔧 Vercel Configuration
 
-### Themes
-The application uses CSS custom properties for easy theming:
-- Primary colors: Gradient from #667eea to #764ba2
-- Accent colors: #ff6b6b, #4ecdc4, #feca57
-- Typography: Poppins font family
+The project includes a `vercel.json` file with the following configuration:
 
-### Adding New Features
-1. **JavaScript**: Add new interactive features in `static/js/app.js`
-2. **Styling**: Extend styles in `static/css/custom.css`
-3. **Templates**: Modify HTML templates in `templates/`
+```json
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "./api/index.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.py"
+    }
+  ],
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "PYTHON_VERSION": "3.9"
+  }
+}
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **Build Errors**: Check that all dependencies are in `requirements.txt`
+2. **Import Errors**: Ensure all Python files are properly structured
+3. **Static Files**: Make sure static files are in the correct directory
+4. **Model Files**: Verify that `.pkl` files are included in deployment
+
+### Deployment Logs
+Check deployment logs in Vercel dashboard for detailed error information.
 
 ## 📈 Model Information
 
@@ -147,14 +235,6 @@ The Fire Weather Index prediction model uses:
 - **Features**: 9 weather and environmental parameters
 - **Preprocessing**: StandardScaler for feature normalization
 - **Validation**: Real-time input validation and error handling
-
-## 🐛 Error Handling
-
-The application includes comprehensive error handling:
-- **Input Validation**: Range checking for all parameters
-- **Model Errors**: Graceful handling of prediction failures
-- **HTTP Errors**: Custom 404 and 500 error pages
-- **User Feedback**: Clear error messages and recovery options
 
 ## 🤝 Contributing
 
@@ -174,6 +254,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - UI Inspiration: Modern glass morphism design trends
 - Icons: Font Awesome
 - Fonts: Google Fonts
+- Deployment: Vercel
 
 ## 📧 Contact
 
@@ -182,3 +263,5 @@ For questions or suggestions, please open an issue on GitHub.
 ---
 
 Made with ❤️ and lots of ☕
+
+**Live Demo**: [Deploy on Vercel](https://vercel.com/new/clone?repository-url=<your-repo-url>)
